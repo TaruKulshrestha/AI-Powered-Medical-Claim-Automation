@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings - MediClaim Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="profile-settings-page">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>MediClaim Pro</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="file-claim.html" class="nav-item">
+                <span class="nav-icon">➕</span>
+                <span>File New Claim</span>
+            </a>
+            <a href="claim-status.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>Claim Status</span>
+            </a>
+            <a href="upload-documents.html" class="nav-item" id="uploadDocsBtn">
+                <span class="nav-icon">📤</span>
+                <span>Upload Documents</span>
+            </a>
+            <a href="profile-settings.html" class="nav-item active">
+                <span class="nav-icon">👤</span>
+                <span>Profile Settings</span>
+            </a>
+            <a href="contact-support.html" class="nav-item" id="contactSupportBtn">
+                <span class="nav-icon">💬</span>
+                <span>Contact Support</span>
+            </a>
+            <a href="#" id="logoutBtn" class="nav-item logout">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <span>☰</span>
+            </button>
+            <h1>Profile Settings</h1>
+            <div class="header-right">
+                <span id="userNameDisplay" class="user-display">User</span>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <div class="content-wrapper">
+            <!-- Profile Settings Container -->
+            <div class="profile-settings-container">
+                <!-- Success/Error Messages -->
+                <div id="successMessage" class="alert alert-success" style="display: none;"></div>
+                <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+
+                <!-- Profile Information Section -->
+                <section class="profile-section">
+                    <div class="section-header">
+                        <h2>Personal Information</h2>
+                        <button id="editProfileBtn" class="btn btn-primary">
+                            ✏️ Edit Profile
+                        </button>
+                    </div>
+
+                    <!-- View Mode (Read-only) -->
+                    <div id="viewMode" class="profile-view">
+                        <div class="info-group">
+                            <label>Full Name</label>
+                            <p id="displayName" class="info-value">-</p>
+                        </div>
+                        <div class="info-group">
+                            <label>Email Address</label>
+                            <p id="displayEmail" class="info-value">-</p>
+                        </div>
+                        <div class="info-group">
+                            <label>Mobile Number</label>
+                            <p id="displayMobile" class="info-value">-</p>
+                        </div>
+                        <div class="info-group">
+                            <label>Policy Number</label>
+                            <p id="displayPolicy" class="info-value">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Edit Mode (Form) -->
+                    <form id="editProfileForm" class="profile-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="editName">Full Name *</label>
+                            <input type="text" id="editName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email Address *</label>
+                            <input type="email" id="editEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editMobile">Mobile Number *</label>
+                            <input type="tel" id="editMobile" name="mobile" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPolicy">Policy Number *</label>
+                            <input type="text" id="editPolicy" name="policyNumber" required>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                            <button type="button" id="cancelEditBtn" class="btn btn-secondary">✕ Cancel</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Change Password Section -->
+                <section class="profile-section">
+                    <div class="section-header">
+                        <h2>Security Settings</h2>
+                    </div>
+
+                    <form id="changePasswordForm" class="profile-form">
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password *</label>
+                            <input type="password" id="currentPassword" name="currentPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">New Password *</label>
+                            <input type="password" id="newPassword" name="newPassword" required>
+                            <small>Password must be at least 6 characters</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmNewPassword">Confirm New Password *</label>
+                            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">🔐 Update Password</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Account Actions Section -->
+                <section class="profile-section">
+                    <div class="section-header">
+                        <h2>Account Actions</h2>
+                    </div>
+
+                    <div class="account-actions">
+                        <div class="action-item">
+                            <h3>Delete Account</h3>
+                            <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
+                            <button id="deleteAccountBtn" class="btn btn-danger">🗑️ Delete Account</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/profile-settings.js"></script>
+</body>
+</html>

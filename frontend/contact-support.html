@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Support - MediClaim Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <script>
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.replace('login.html?next=' + encodeURIComponent('contact-support.html'));
+        }
+    </script>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>MediClaim Pro</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="file-claim.html" class="nav-item">
+                <span class="nav-icon">➕</span>
+                <span>File New Claim</span>
+            </a>
+            <a href="claim-status.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>Claim Status</span>
+            </a>
+            <a href="upload-documents.html" class="nav-item">
+                <span class="nav-icon">📤</span>
+                <span>Upload Documents</span>
+            </a>
+            <a href="profile-settings.html" class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span>Profile Settings</span>
+            </a>
+            <a href="contact-support.html" class="nav-item active">
+                <span class="nav-icon">💬</span>
+                <span>Contact Support</span>
+            </a>
+            <a href="#" class="nav-item logout" id="logoutBtn">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="topbar-right">
+                <div class="user-profile">
+                    <span id="topbarUserName">User</span>
+                    <div class="user-avatar" id="topbarUserAvatar">U</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <div class="page-header">
+                <h1>Contact Support</h1>
+                <p>Submit your questions or issues and get support from our team</p>
+            </div>
+
+            <!-- Contact Support Form Card -->
+            <div class="dashboard-card">
+                <h2>Submit Your Support Request</h2>
+
+                <form id="contactSupportForm" class="profile-form">
+                    <div class="form-group">
+                        <label for="supportSubject">Subject *</label>
+                        <input type="text" id="supportSubject" name="subject" placeholder="e.g., Claim Issue, Payment Problem" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="supportCategory">Category *</label>
+                        <select id="supportCategory" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="claim">Claim Issues</option>
+                            <option value="payment">Payment Problems</option>
+                            <option value="document">Document Upload</option>
+                            <option value="profile">Profile & Account</option>
+                            <option value="technical">Technical Issues</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="supportPriority">Priority</label>
+                        <select id="supportPriority" name="priority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="supportMessage">Message *</label>
+                        <textarea id="supportMessage" name="message" rows="6" placeholder="Please describe your issue in detail..." required></textarea>
+                    </div>
+
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="supportAttachment">Attachment (Optional)</label>
+                        <input type="file" id="supportAttachment" name="attachment" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
+                        <small>Max file size: 5MB. Allowed: PDF, JPG, PNG, DOC, DOCX</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">📧 Send Support Request</button>
+                        <button type="button" id="clearSupportBtn" class="btn btn-secondary">✕ Clear</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Support Info Card -->
+            <div class="dashboard-card">
+                <h2>My Support Requests</h2>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Submitted</th>
+                                <th>Admin Reply</th>
+                                <th>Replied By</th>
+                            </tr>
+                        </thead>
+                        <tbody id="supportTicketsTbody">
+                            <tr><td colspan="5" class="admin-loading">Loading support requests...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Support Info Card -->
+            <div class="dashboard-card">
+                <h2>Need Quick Help?</h2>
+                <div class="support-info">
+                    <div class="support-options">
+                        <div class="support-option">
+                            <div class="support-icon">📞</div>
+                            <h4>Call Us</h4>
+                            <p>+1 (800) 123-4567</p>
+                            <small>Mon - Fri, 9 AM - 6 PM EST</small>
+                        </div>
+                        <div class="support-option">
+                            <div class="support-icon">📧</div>
+                            <h4>Email Support</h4>
+                            <p>support@mediclaim.com</p>
+                            <small>Response within 24 hours</small>
+                        </div>
+                        <div class="support-option">
+                            <div class="support-icon">💬</div>
+                            <h4>Live Chat</h4>
+                            <p>Available Online</p>
+                            <small>Mon - Sun, 10 AM - 8 PM EST</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner-content">
+            <div class="spinner"></div>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/contact-support.js"></script>
+</body>
+</html>
+</body>
+</html>

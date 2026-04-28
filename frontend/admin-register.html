@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration - MediClaim Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h2><a href="index.html">MediClaim Pro</a></h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="admin-login.html" class="nav-link-admin">Admin Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Admin Registration</h2>
+                <p>Register as a new admin. First credential: <strong>Admin ID</strong> (must start with MDC). Second credential: <strong>Password</strong>.</p>
+            </div>
+
+            <form id="adminRegisterForm" class="auth-form">
+                <div class="form-group">
+                    <label for="regAdminId">Admin ID *</label>
+                    <input type="text" id="regAdminId" name="adminId" placeholder="e.g. MDC002 or MDCyourname" required autocomplete="username">
+                    <span class="error-message" id="regAdminIdError"></span>
+                    <small class="form-hint">Admin ID must start with MDC</small>
+                </div>
+                <div class="form-group">
+                    <label for="regAdminPassword">Password *</label>
+                    <input type="password" id="regAdminPassword" name="adminPassword" required autocomplete="new-password" minlength="6">
+                    <span class="error-message" id="regAdminPasswordError"></span>
+                    <small class="form-hint">Minimum 6 characters</small>
+                </div>
+                <div class="form-group">
+                    <label for="regAdminConfirmPassword">Confirm Password *</label>
+                    <input type="password" id="regAdminConfirmPassword" name="confirmPassword" required autocomplete="new-password">
+                    <span class="error-message" id="regAdminConfirmPasswordError"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Register as Admin</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an admin account? <a href="admin-login.html">Admin Login</a></p>
+                <p><a href="index.html">Back to Home</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/admin-auth.js"></script>
+</body>
+</html>

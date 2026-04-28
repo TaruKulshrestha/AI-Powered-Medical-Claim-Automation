@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Documents - MediClaim Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <script>
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.replace('login.html?next=' + encodeURIComponent('upload-documents.html'));
+        }
+    </script>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>MediClaim Pro</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="file-claim.html" class="nav-item">
+                <span class="nav-icon">➕</span>
+                <span>File New Claim</span>
+            </a>
+            <a href="claim-status.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>Claim Status</span>
+            </a>
+            <a href="upload-documents.html" class="nav-item active" id="uploadDocsBtn">
+                <span class="nav-icon">📤</span>
+                <span>Upload Documents</span>
+            </a>
+            <a href="profile-settings.html" class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span>Profile Settings</span>
+            </a>
+            <a href="contact-support.html" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span>Contact Support</span>
+            </a>
+            <a href="#" class="nav-item logout" id="logoutBtn">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="topbar-right">
+                <div class="user-profile">
+                    <span id="topbarUserName">User</span>
+                    <div class="user-avatar" id="topbarUserAvatar">U</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <div class="page-header">
+                <h1>Upload Documents</h1>
+                <p>Upload supporting documents for your insurance claims</p>
+            </div>
+
+            <!-- Upload Documents Section -->
+            <div class="dashboard-card">
+                <div class="upload-section">
+                    <h2>Upload Claim Documents</h2>
+                    
+                    <form id="uploadForm" class="upload-form">
+                        <div class="form-group">
+                            <label for="claimSelect">Select Claim *</label>
+                            <select id="claimSelect" name="claimId" required>
+                                <option value="">Choose a claim...</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documentType">Document Type *</label>
+                            <select id="documentType" name="documentType" required>
+                                <option value="">Select document type</option>
+                                <option value="prescription">Prescription</option>
+                                <option value="medical_report">Medical Report</option>
+                                <option value="bill">Hospital Bill</option>
+                                <option value="receipt">Receipt</option>
+                                <option value="lab_test">Lab Test Report</option>
+                                <option value="id_proof">ID Proof</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documentDescription">Description</label>
+                            <textarea id="documentDescription" name="description" rows="3" placeholder="Add any notes about this document..." class="form-control"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documentFile">Document File *</label>
+                            <div class="file-upload-area" id="fileUploadArea">
+                                <input type="file" id="documentFile" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.txt" required style="display:none;">
+                                <div class="upload-icon">📄</div>
+                                <div class="upload-text">
+                                    <p><strong>Click to upload</strong> or drag and drop</p>
+                                    <small>PDF, JPG, PNG, DOC, DOCX (Max 10MB)</small>
+                                </div>
+                                <div class="file-name" id="fileName" style="display:none;"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <span>📤 Upload Document</span>
+                            </button>
+                            <button type="button" id="clearFormBtn" class="btn btn-secondary">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Uploaded Documents List -->
+            <div class="dashboard-card">
+                <h2>Your Uploaded Documents</h2>
+                <div id="uploadedDocumentsList" class="documents-list">
+                    <p class="no-documents">No documents uploaded yet</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+        <div class="spinner-content">
+            <div class="spinner"></div>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/upload-documents.js"></script>
+</body>
+</html>

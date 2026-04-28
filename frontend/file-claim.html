@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File a Claim - MediClaim Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <script>
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.replace('login.html?next=' + encodeURIComponent('file-claim.html'));
+        }
+    </script>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>MediClaim Pro</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="file-claim.html" class="nav-item active">
+                <span class="nav-icon">➕</span>
+                <span>File New Claim</span>
+            </a>
+            <a href="claim-status.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>Claim Status</span>
+            </a>
+            <a href="upload-documents.html" class="nav-item" id="uploadDocsBtn">
+                <span class="nav-icon">📤</span>
+                <span>Upload Documents</span>
+            </a>
+            <a href="profile-settings.html" class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span>Profile Settings</span>
+            </a>
+            <a href="contact-support.html" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span>Contact Support</span>
+            </a>
+            <a href="#" class="nav-item logout">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="topbar-right">
+                <div class="user-profile">
+                    <span id="topbarUserName">User</span>
+                    <div class="user-avatar" id="topbarUserAvatar">U</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <div class="page-header">
+                <h1>File a New Claim</h1>
+                <p>Fill in the details below to submit your medical insurance claim</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Personal Details</div>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Hospital Info</div>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Treatment Details</div>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Expenses</div>
+                    </div>
+                    <div class="progress-line"></div>
+                    <div class="progress-step" data-step="5">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Documents</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claim Form -->
+            <form id="claimForm" class="claim-form" novalidate>
+                <!-- Step 1: Personal & Policy Details -->
+                <div class="form-step active" id="step1">
+                    <div class="dashboard-card">
+                        <h2>Personal & Policy Details</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="claimName">Full Name *</label>
+                                <input type="text" id="claimName" name="name" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="claimPolicyNumber">Policy Number *</label>
+                                <input type="text" id="claimPolicyNumber" name="policyNumber" placeholder="Enter policy number" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="claimEmail">Email Address *</label>
+                                <input type="email" id="claimEmail" name="email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="claimMobile">Mobile Number *</label>
+                                <input type="tel" id="claimMobile" name="mobile" placeholder="10 digit mobile number" pattern="[0-9]{10}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="claimDate">Claim Date *</label>
+                                <input type="date" id="claimDate" name="claimDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="claimType">Claim Type *</label>
+                                <select id="claimType" name="claimType" required>
+                                    <option value="">Select claim type</option>
+                                    <option value="hospitalization">Hospitalization</option>
+                                    <option value="surgery">Surgery</option>
+                                    <option value="daycare">Day Care Procedure</option>
+                                    <option value="opd">OPD Treatment</option>
+                                    <option value="pre">Pre-Hospitalization</option>
+                                    <option value="post">Post-Hospitalization</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-primary" onclick="nextStep(2)">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Hospital Information -->
+                <div class="form-step" id="step2">
+                    <div class="dashboard-card">
+                        <h2>Hospital Information</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="hospitalName">Hospital Name *</label>
+                                <input type="text" id="hospitalName" name="hospitalName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="hospitalAddress">Hospital Address *</label>
+                                <textarea id="hospitalAddress" name="hospitalAddress" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="hospitalCity">City *</label>
+                                <input type="text" id="hospitalCity" name="hospitalCity" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="hospitalState">State *</label>
+                                <input type="text" id="hospitalState" name="hospitalState" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="hospitalPincode">Pincode *</label>
+                                <input type="text" id="hospitalPincode" name="hospitalPincode" pattern="[0-9]{6}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="hospitalPhone">Hospital Contact Number</label>
+                                <input type="tel" id="hospitalPhone" name="hospitalPhone">
+                            </div>
+                            <div class="form-group">
+                                <label for="hospitalType">Hospital Type *</label>
+                                <select id="hospitalType" name="hospitalType" required>
+                                    <option value="">Select hospital type</option>
+                                    <option value="Private">Private</option>
+                                    <option value="Government">Government</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="admissionDate">Admission Date *</label>
+                                <input type="date" id="admissionDate" name="admissionDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="dischargeDate">Discharge Date *</label>
+                                <input type="date" id="dischargeDate" name="dischargeDate" required>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Previous</button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(3)">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Treatment Details -->
+                <div class="form-step" id="step3">
+                    <div class="dashboard-card">
+                        <h2>Treatment Details</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="patientName">Patient Name *</label>
+                                <input type="text" id="patientName" name="patientName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="patientAge">Patient Age *</label>
+                                <input type="number" id="patientAge" name="patientAge" min="0" max="120" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="patientRelation">Relationship with Policy Holder *</label>
+                                <select id="patientRelation" name="patientRelation" required>
+                                    <option value="">Select relationship</option>
+                                    <option value="self">Self</option>
+                                    <option value="spouse">Spouse</option>
+                                    <option value="child">Child</option>
+                                    <option value="parent">Parent</option>
+                                    <option value="sibling">Sibling</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="doctorName">Attending Doctor Name *</label>
+                                <input type="text" id="doctorName" name="doctorName" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="diagnosis">Diagnosis / Reason for Treatment *</label>
+                                <textarea id="diagnosis" name="diagnosis" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="treatmentDetails">Treatment Details *</label>
+                                <textarea id="treatmentDetails" name="treatmentDetails" rows="4" required></textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Previous</button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(4)">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Expense Details -->
+                <div class="form-step" id="step4">
+                    <div class="dashboard-card">
+                        <h2>Expense Details</h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="roomCharges">Room Charges *</label>
+                                <input type="number" id="roomCharges" name="roomCharges" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="surgeryCharges">Surgery Charges</label>
+                                <input type="number" id="surgeryCharges" name="surgeryCharges" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="doctorFees">Doctor/Consultation Fees *</label>
+                                <input type="number" id="doctorFees" name="doctorFees" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="medicineCharges">Medicine & Pharmacy *</label>
+                                <input type="number" id="medicineCharges" name="medicineCharges" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="labCharges">Lab & Diagnostic Tests</label>
+                                <input type="number" id="labCharges" name="labCharges" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="otherCharges">Other Charges</label>
+                                <input type="number" id="otherCharges" name="otherCharges" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label for="icuCharges">ICU Charges (if applicable)</label>
+                                <input type="number" id="icuCharges" name="icuCharges" min="0" step="0.01" value="0">
+                            </div>
+                            <div class="form-group full-width">
+                                <div class="total-amount-display">
+                                    <label>Total Claim Amount</label>
+                                    <h3 id="totalAmount">₹ 0.00</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Previous</button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(5)">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Document Upload -->
+                <div class="form-step" id="step5">
+                    <div class="dashboard-card">
+                        <h2>Required Documents</h2>
+                        <p class="form-hint">Please upload clear, legible copies of the following documents (PDF/JPG/PNG, Max 5MB each)</p>
+                        
+                        <div class="document-upload-section">
+                            <div class="upload-group">
+                                <label for="dischargeSummary">Discharge Summary *</label>
+                                <div class="file-upload-box">
+                                    <input type="file" id="dischargeSummary" name="dischargeSummary" accept=".pdf,.jpg,.jpeg,.png" required>
+                                    <div class="upload-placeholder">
+                                        <span class="upload-icon">📄</span>
+                                        <p>Click to upload or drag and drop</p>
+                                        <small>PDF, JPG, PNG (Max 5MB)</small>
+                                    </div>
+                                    <div class="file-name"></div>
+                                </div>
+                            </div>
+
+                            <div class="upload-group">
+                                <label for="medicalBills">Medical Bills & Receipts *</label>
+                                <div class="file-upload-box">
+                                    <input type="file" id="medicalBills" name="medicalBills" accept=".pdf,.jpg,.jpeg,.png" multiple required>
+                                    <div class="upload-placeholder">
+                                        <span class="upload-icon">📄</span>
+                                        <p>Click to upload or drag and drop</p>
+                                        <small>PDF, JPG, PNG (Max 5MB each)</small>
+                                    </div>
+                                    <div class="file-name"></div>
+                                </div>
+                            </div>
+
+                            <div class="upload-group">
+                                <label for="prescription">Doctor's Prescription</label>
+                                <div class="file-upload-box">
+                                    <input type="file" id="prescription" name="prescription" accept=".pdf,.jpg,.jpeg,.png">
+                                    <div class="upload-placeholder">
+                                        <span class="upload-icon">📄</span>
+                                        <p>Click to upload or drag and drop</p>
+                                        <small>PDF, JPG, PNG (Max 5MB)</small>
+                                    </div>
+                                    <div class="file-name"></div>
+                                </div>
+                            </div>
+
+                            <div class="upload-group">
+                                <label for="labReports">Lab & Diagnostic Reports</label>
+                                <div class="file-upload-box">
+                                    <input type="file" id="labReports" name="labReports" accept=".pdf,.jpg,.jpeg,.png" multiple>
+                                    <div class="upload-placeholder">
+                                        <span class="upload-icon">📄</span>
+                                        <p>Click to upload or drag and drop</p>
+                                        <small>PDF, JPG, PNG (Max 5MB each)</small>
+                                    </div>
+                                    <div class="file-name"></div>
+                                </div>
+                            </div>
+
+                            <div class="upload-group">
+                                <label for="idProof">ID Proof (Aadhaar/PAN)</label>
+                                <div class="file-upload-box">
+                                    <input type="file" id="idProof" name="idProof" accept=".pdf,.jpg,.jpeg,.png">
+                                    <div class="upload-placeholder">
+                                        <span class="upload-icon">📄</span>
+                                        <p>Click to upload or drag and drop</p>
+                                        <small>PDF, JPG, PNG (Max 5MB)</small>
+                                    </div>
+                                    <div class="file-name"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(4)">Previous</button>
+                            <button type="submit" class="btn btn-primary">Submit Claim</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Success Message Screen -->
+            <div class="success-screen" id="successScreen" style="display: none;">
+                <div class="success-content">
+                    <div class="success-icon">✅</div>
+                    <h2>Claim Submitted Successfully!</h2>
+                    <p>Your claim has been submitted and is under review. You will receive a confirmation email shortly.</p>
+                    <div class="claim-details">
+                        <p><strong>Claim ID:</strong> <span id="successClaimId">CLM-2024-XXX</span></p>
+                        <p><strong>Submission Date:</strong> <span id="successDate"></span></p>
+                    </div>
+                    <div class="success-actions">
+                        <a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+                        <a href="claim-status.html" class="btn btn-secondary">Track Claim Status</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/claim-form.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MediClaim Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <script>
+        if (!localStorage.getItem('isAdminLoggedIn')) {
+            window.location.replace('admin-login.html');
+        }
+    </script>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>MediClaim Pro</h2>
+            <span class="admin-badge">Admin</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin-dashboard.html" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#claims" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>All Claims</span>
+            </a>
+            <a href="#users" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>User Management</span>
+            </a>
+            <a href="#reports" class="nav-item">
+                <span class="nav-icon">📈</span>
+                <span>Reports</span>
+            </a>
+            <a href="#settings" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+            <a href="index.html" class="nav-item logout">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="topbar-right">
+                <div class="user-profile">
+                    <span>Admin User</span>
+                    <div class="user-avatar">AU</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <div class="page-header">
+                <h1>Admin Dashboard</h1>
+                <p>Manage all claims and users from this panel</p>
+            </div>
+
+            <!-- Admin Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-icon" style="background: #e3f2fd;">
+                        <span>📝</span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Pending Claims</h3>
+                        <p class="summary-number">45</p>
+                        <span class="summary-link">Requires review</span>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon" style="background: #fff3e0;">
+                        <span>⏳</span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Under Review</h3>
+                        <p class="summary-number">23</p>
+                        <span class="summary-link">In process</span>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon" style="background: #e8f5e9;">
+                        <span>✅</span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Approved Today</h3>
+                        <p class="summary-number">12</p>
+                        <span class="summary-link">Ready for settlement</span>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon" style="background: #f3e5f5;">
+                        <span>💰</span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Total Claims</h3>
+                        <p class="summary-number">1,234</p>
+                        <span class="summary-link">This month</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="dashboard-card" id="charts">
+                <div class="card-header">
+                    <h2>Claims Analytics</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <h3>All Claim Submissions (Monthly)</h3>
+                        <canvas id="claimsBarChart" height="80"></canvas>
+                    </div>
+                    <div class="form-group">
+                        <h3>Approved vs Rejected vs Pending</h3>
+                        <canvas id="statusPieChart" height="120"></canvas>
+                    </div>
+                    <div class="form-group">
+                        <h3>Fraud Detection Trend</h3>
+                        <canvas id="fraudLineChart" height="120"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claims Management Table -->
+            <div class="dashboard-card" id="claims">
+                <div class="card-header">
+                    <h2>All Claims</h2>
+                    <div class="admin-filters">
+                        <input type="text" placeholder="Search by Claim ID..." class="search-input">
+                        <select class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="review">Under Review</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Claim ID</th>
+                                <th>Policy Holder</th>
+                                <th>Patient</th>
+                                <th>Hospital</th>
+                                <th>Amount</th>
+                                <th>Submitted</th>
+                                <th>Fraud Check</th>
+                                <th>Decision Type</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminClaimsTbody">
+                            <tr><td colspan="10" class="admin-loading">Loading claims...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- User Management Table -->
+            <div class="dashboard-card" id="users">
+                <div class="card-header">
+                    <h2>User Management</h2>
+                    <input type="text" placeholder="Search users..." class="search-input">
+                </div>
+                <form id="adminAddUserForm" class="form-grid" style="margin-bottom: 1rem;">
+                    <div class="form-group">
+                        <label for="adminUserName">Full Name *</label>
+                        <input type="text" id="adminUserName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminUserEmail">Email *</label>
+                        <input type="email" id="adminUserEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminUserMobile">Mobile *</label>
+                        <input type="tel" id="adminUserMobile" pattern="[0-9]{10}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminUserPolicy">Policy Number *</label>
+                        <input type="text" id="adminUserPolicy" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminUserPassword">Temporary Password *</label>
+                        <input type="password" id="adminUserPassword" minlength="8" required>
+                    </div>
+                    <div class="form-group" style="display:flex;align-items:flex-end;">
+                        <button type="submit" class="btn btn-primary">Add User</button>
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Policy Number</th>
+                                <th>Mobile</th>
+                                <th>Total Claims</th>
+                                <th>Total Amount Filed</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminUsersTbody">
+                            <tr><td colspan="8" class="admin-loading">Loading users...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div class="dashboard-card" id="support-complaints">
+                <div class="card-header">
+                    <h2>Support Complaints</h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>User Email</th>
+                                <th>Subject</th>
+                                <th>Message</th>
+                                <th>Status</th>
+                                <th>Reply</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminSupportTbody">
+                            <tr><td colspan="6" class="admin-loading">Loading support complaints...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div class="dashboard-card" id="reports">
+                <div class="card-header">
+                    <h2>Reports</h2>
+                </div>
+                <p>Generate and review claim performance reports.</p>
+                <div class="form-actions">
+                    <button type="button" id="generateMonthlyReportBtn" class="btn btn-primary" onclick="generateMonthlyReport()">Generate Monthly Report</button>
+                    <button type="button" id="exportMonthlyReportCsvBtn" class="btn btn-secondary" onclick="exportMonthlyReport()">Export CSV</button>
+                </div>
+                <div id="monthlyReportOutput" style="margin-top: 1rem;"></div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="dashboard-card" id="settings">
+                <div class="card-header">
+                    <h2>Settings</h2>
+                </div>
+                <p>Admin configuration options for review workflows.</p>
+                <div class="form-group">
+                    <label for="autoAssignToggle">Auto-assign new claims to reviewers</label>
+                    <select id="autoAssignToggle" class="filter-select">
+                        <option value="enabled">Enabled</option>
+                        <option value="disabled">Disabled</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary" onclick="showNotification('Settings saved', 'success')">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Claim Review Modal -->
+    <div class="modal" id="claimModal" style="display: none;">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2>Review Claim: <span id="modalClaimId"></span></h2>
+                <button class="modal-close" onclick="closeClaimModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="claim-review-section">
+                    <h3>Claim Details</h3>
+                    <div class="review-grid">
+                        <div class="review-item"><label>Policy Holder:</label><p id="modalPolicyHolder">-</p></div>
+                        <div class="review-item"><label>Patient:</label><p id="modalPatient">-</p></div>
+                        <div class="review-item"><label>Hospital:</label><p id="modalHospital">-</p></div>
+                        <div class="review-item"><label>Treatment:</label><p id="modalTreatment">-</p></div>
+                        <div class="review-item"><label>Claim Amount:</label><p class="amount" id="modalAmount">-</p></div>
+                        <div class="review-item"><label>Submitted Date:</label><p id="modalSubmittedDate">-</p></div>
+                        <div class="review-item"><label>Fraud Risk:</label><p id="modalFraudRisk">-</p></div>
+                        <div class="review-item"><label>Decision Type:</label><p id="modalDecisionType">-</p></div>
+                    </div>
+
+                    <h3>Uploaded Documents</h3>
+                    <div id="modalUploadedFiles" class="support-info">Loading uploaded files...</div>
+
+                    <h3>Admin Remarks</h3>
+                    <textarea id="adminRemarks" class="remarks-input" placeholder="Add your remarks or notes about this claim..." rows="4"></textarea>
+
+                    <div class="modal-actions">
+                        <button class="btn btn-danger" onclick="rejectClaim()">Reject Claim</button>
+                        <button class="btn btn-secondary" onclick="requestMoreInfo()">Request More Info</button>
+                        <button class="btn btn-primary" onclick="approveClaim()">Approve Claim</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User View Modal -->
+    <div class="modal" id="userModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>User Details</h2>
+                <button class="modal-close" onclick="closeUserModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="review-grid">
+                    <div class="review-item"><label>Name:</label><p id="userModalName">-</p></div>
+                    <div class="review-item"><label>Email:</label><p id="userModalEmail">-</p></div>
+                    <div class="review-item"><label>Policy Number:</label><p id="userModalPolicy">-</p></div>
+                    <div class="review-item"><label>Mobile:</label><p id="userModalMobile">-</p></div>
+                    <div class="review-item"><label>Total Claims:</label><p id="userModalClaims">-</p></div>
+                    <div class="review-item"><label>Total Amount Filed:</label><p id="userModalAmount">-</p></div>
+                    <div class="review-item"><label>Status:</label><p id="userModalStatus">-</p></div>
+                </div>
+                <div class="form-actions" style="margin-top: 1rem;">
+                    <button class="btn btn-secondary" onclick="closeUserModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
+

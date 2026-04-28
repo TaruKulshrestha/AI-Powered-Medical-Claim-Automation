@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Status - MediClaim Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <script>
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.replace('login.html?next=' + encodeURIComponent('claim-status.html'));
+        }
+    </script>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>MediClaim Pro</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="file-claim.html" class="nav-item">
+                <span class="nav-icon">➕</span>
+                <span>File New Claim</span>
+            </a>
+            <a href="claim-status.html" class="nav-item active">
+                <span class="nav-icon">📋</span>
+                <span>Claim Status</span>
+            </a>
+            <a href="upload-documents.html" class="nav-item" id="uploadDocsBtn">
+                <span class="nav-icon">📤</span>
+                <span>Upload Documents</span>
+            </a>
+            <a href="profile-settings.html" class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span>Profile Settings</span>
+            </a>
+            <a href="contact-support.html" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span>Contact Support</span>
+            </a>
+            <a href="#" class="nav-item logout">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="topbar-right">
+                <div class="user-profile">
+                    <span id="topbarUserName">User</span>
+                    <div class="user-avatar" id="topbarUserAvatar">U</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+            <div class="page-header">
+                <h1>Claim Status</h1>
+                <p>Track the status of all your submitted claims</p>
+            </div>
+
+            <!-- Claim Search/Filter -->
+            <div class="dashboard-card">
+                <div class="filter-section">
+                    <input type="text" id="claimSearch" placeholder="Search by Claim ID..." class="search-input">
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="submitted">Submitted</option>
+                        <option value="review">Under Review</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                        <option value="settled">Settled</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Claims List -->
+            <div id="claimsList" class="claims-status-list">
+                <p class="claims-loading" id="claimsLoading">Loading your claims...</p>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/claim-status.js"></script>
+    <script>
+        // Filter functionality (works with dynamically loaded claim cards)
+        document.getElementById('claimSearch')?.addEventListener('input', filterClaims);
+        document.getElementById('statusFilter')?.addEventListener('change', filterClaims);
+
+        function filterClaims() {
+            var searchEl = document.getElementById('claimSearch');
+            var filterEl = document.getElementById('statusFilter');
+            if (!searchEl || !filterEl) return;
+            var searchTerm = searchEl.value.toLowerCase();
+            var statusFilter = filterEl.value;
+            var claims = document.querySelectorAll('.claim-status-card');
+
+            claims.forEach(function(claim) {
+                var claimId = (claim.dataset.claimId || '').toLowerCase();
+                var status = claim.dataset.status || '';
+                var matchesStatus = !statusFilter || status === statusFilter || (statusFilter === 'review' && status === 'pending') || (statusFilter === 'submitted' && status === 'pending');
+                var matchesSearch = claimId.indexOf(searchTerm) !== -1;
+                claim.style.display = (matchesSearch && matchesStatus) ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
+

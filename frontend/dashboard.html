@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MediClaim Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>MediClaim Pro</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="file-claim.html" class="nav-item">
+                <span class="nav-icon">➕</span>
+                <span>File New Claim</span>
+            </a>
+            <a href="claim-status.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>Claim Status</span>
+            </a>
+            <a href="upload-documents.html" class="nav-item" id="uploadDocsBtn">
+                <span class="nav-icon">📤</span>
+                <span>Upload Documents</span>
+            </a>
+            <a href="#" class="nav-item" id="profileBtn">
+                <span class="nav-icon">👤</span>
+                <span>Profile Settings</span>
+            </a>
+            <a href="contact-support.html" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span>Contact Support</span>
+            </a>
+            <a href="#" class="nav-item logout" id="logoutBtn">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="topbar-right">
+                <div class="user-profile">
+                    <span id="userName">John Doe</span>
+                    <div class="user-avatar">JD</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-container">
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <p>Welcome back! Here's an overview of your policy and claims.</p>
+            </div>
+
+            <!-- Policy Overview Card (values set dynamically; NA if not provided) -->
+            <div class="dashboard-card policy-card">
+                <h2>Policy Details</h2>
+                <div class="policy-info-grid">
+                    <div class="info-item">
+                        <label>Policy Number</label>
+                        <p id="policyNumber">NA</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Policy Type</label>
+                        <p id="policyType">NA</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Sum Insured</label>
+                        <p id="sumInsured">NA</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Validity</label>
+                        <p id="validity">NA</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Premium Amount</label>
+                        <p id="premium">NA</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Status</label>
+                        <span class="status-badge status-pending" id="policyStatus">NA</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Claim Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="summary-icon" style="background: #e3f2fd;">
+                        <span>📝</span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Active Claims</h3>
+                        <p class="summary-number" id="activeClaims">3</p>
+                        <a href="claim-status.html" class="summary-link">View all →</a>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon" style="background: #e8f5e9;">
+                        <span>✅</span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Completed Claims</h3>
+                        <p class="summary-number" id="completedClaims">12</p>
+                        <a href="claim-status.html" class="summary-link">View all →</a>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon" style="background: #fff3e0;">
+                        <span>📄</span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Pending Documents</h3>
+                        <p class="summary-number" id="pendingDocs">2</p>
+                        <a href="#" class="summary-link" id="uploadDocsLink">Upload now →</a>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-icon" style="background: #f3e5f5;">
+                        <span>💰</span>
+                    </div>
+                    <div class="summary-content">
+                        <h3>Total Claimed</h3>
+                        <p class="summary-number" id="totalClaimed">₹ 2,45,000</p>
+                        <span class="summary-link">This year</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Claims Table -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h2>Recent Claims</h2>
+                    <a href="claim-status.html" class="btn btn-text">View All</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="claims-table">
+                        <thead>
+                            <tr>
+                                <th>Claim ID</th>
+                                <th>Date</th>
+                                <th>Hospital</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentClaimsTable">
+                            <tr>
+                                <td>CLM-2024-001</td>
+                                <td>Mar 15, 2024</td>
+                                <td>Apollo Hospital</td>
+                                <td>₹ 45,000</td>
+                                <td><span class="status-badge status-pending">Under Review</span></td>
+                                <td><a href="claim-status.html" class="btn-link">View</a></td>
+                            </tr>
+                            <tr>
+                                <td>CLM-2024-002</td>
+                                <td>Mar 10, 2024</td>
+                                <td>Fortis Healthcare</td>
+                                <td>₹ 78,500</td>
+                                <td><span class="status-badge status-approved">Approved</span></td>
+                                <td><a href="claim-status.html" class="btn-link">View</a></td>
+                            </tr>
+                            <tr>
+                                <td>CLM-2024-003</td>
+                                <td>Mar 5, 2024</td>
+                                <td>Max Hospital</td>
+                                <td>₹ 32,000</td>
+                                <td><span class="status-badge status-processing">Processing</span></td>
+                                <td><a href="claim-status.html" class="btn-link">View</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
+

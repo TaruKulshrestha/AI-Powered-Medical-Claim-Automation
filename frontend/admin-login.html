@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - MediClaim Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+    <script>
+        if (localStorage.getItem('isAdminLoggedIn')) {
+            window.location.replace('admin-dashboard.html');
+        }
+    </script>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h2><a href="index.html">MediClaim Pro</a></h2>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>Admin Login</h2>
+                <p>Enter your admin credentials to verify and manage claims. Admin ID must start with <strong>MDC</strong>.</p>
+            </div>
+
+            <form id="adminLoginForm" class="auth-form">
+                <div class="form-group">
+                    <label for="adminId">Admin ID *</label>
+                    <input type="text" id="adminId" name="adminId" placeholder="e.g. MDC001 or MDCadmin" required autocomplete="username">
+                    <span class="error-message" id="adminIdError"></span>
+                    <small class="form-hint">Your admin ID must start with MDC</small>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password *</label>
+                    <input type="password" id="adminPassword" name="adminPassword" required autocomplete="current-password">
+                    <span class="error-message" id="adminPasswordError"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Admin Login</button>
+            </form>
+
+            <div class="auth-footer">
+                <p>New admin? <a href="admin-register.html" id="adminRegisterLink">Register as Admin</a></p>
+                <p><a href="index.html">Back to Home</a> &nbsp;|&nbsp; <a href="login.html">User Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/admin-auth.js"></script>
+</body>
+</html>
