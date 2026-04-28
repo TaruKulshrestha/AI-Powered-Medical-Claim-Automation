@@ -5,7 +5,7 @@
 (function () {
     var BASE = typeof window !== 'undefined' && window.API_BASE_URL
         ? window.API_BASE_URL
-        : 'https://ai-powered-medical-claim-automation.onrender.com/api';
+        : 'http://localhost:5000/api';
 
     function request(method, path, body) {
         var url = BASE + path;

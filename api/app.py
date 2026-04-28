@@ -576,7 +576,7 @@ def list_claims():
         if is_admin:
             cur.execute("SELECT * FROM claims ORDER BY submitted_date DESC")
         elif email:
-            cur.execute("SELECT * FROM claims WHERE user_email = %s ORDER BY submitted_date DESC", (email,))
+            cur.execute("SELECT * FROM claims WHERE LOWER(user_email) = LOWER(%s) ORDER BY submitted_date DESC", (email,))
         else:
             return jsonify({"error": "email or admin param required"}), 400
 
